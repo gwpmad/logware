@@ -1,0 +1,25 @@
+{
+  "name": "logware",
+  "version": "1.0.0",
+  "description": "Easy, flexible and clear Express middleware logging",
+  "main": "./dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src --presets babel-preset-es2015 --out-dir dist",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gwpmad/logware.git"
+  },
+  "author": "gwpmad",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gwpmad/logware/issues"
+  },
+  "homepage": "https://github.com/gwpmad/logware#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1"
+  }
+}

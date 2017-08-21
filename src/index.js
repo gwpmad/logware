@@ -39,8 +39,6 @@ const logCounterAndMessage = (counter, message, textColour) => {
   console.log(textColour, `\n\n${corner}${fullMessage}\n\n`);
 };
 
-const logClosingCorner = (textColour) => console.log(textColour, '\n║\n╚══\n\n\n');
-
 // colours https://stackoverflow.com/a/41407246
 const logInfo = (entityName, path, value, textColour) =>
   console.log(textColour, `\n\n  ${entityName}.${path}\n  ${getUnderline(entityName.length + path.length)}\n  ${inspect(value)}\n`);
@@ -48,7 +46,7 @@ const logInfo = (entityName, path, value, textColour) =>
 const assembleAndLog = (entityName, textColour, entity) => (path) =>
   logInfo(entityName, path, resolve(path, entity), textColour);
 
-export default (options = 'Logger middleware called') => {
+module.exports /* see https://stackoverflow.com/a/40295288 for why this is neccessary */ = (options = 'Logger middleware called') => {
   let message = '';
   let reqPaths = [];
   let resPaths = [];
@@ -74,7 +72,6 @@ export default (options = 'Logger middleware called') => {
     logCounterAndMessage(res.locals.expressMiddlewareLoggerCounter, message, textColour);
     reqPaths.forEach(assembleAndLog('req', textColour, req));
     resPaths.forEach(assembleAndLog('res', textColour, res));
-    // logClosingCorner(textColour);
     res.locals.expressMiddlewareLoggerCounter++;
     next();
   };
