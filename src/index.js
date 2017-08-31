@@ -46,21 +46,26 @@ const logInfo = (entityName, path, value, textColour) =>
 const assembleAndLog = (entityName, textColour, entity) => (path) =>
   logInfo(entityName, path, resolve(path, entity), textColour);
 
-module.exports /* see https://stackoverflow.com/a/40295288 for why this is neccessary */ = (options = 'Logger middleware called') => {
+const loggerWare = (individualOptions = 'Logger middleware called') => {
   let message = '';
   let reqPaths = [];
   let resPaths = [];
 
-  if (isJSObject(options)) {
-    if (options.message) message = options.message;
-    if (options.req) reqPaths = forceArrayOfStrings(options.req);
-    if (options.res) resPaths = forceArrayOfStrings(options.res);
-  } else if (typeof options === 'string') {
-    message = options;
-  } else {
+  if (isJSObject(individualOptions)) {
+    if (individualOptions.message) message = individualOptions.message;
+    if (individualOptions.req) reqPaths = forceArrayOfStrings(individualOptions.req);
+    if (individualOptions.res) resPaths = forceArrayOfStrings(individualOptions.res);
+  } else if (typeof individualOptions === 'string') {
+    message = individualOptions;
+  } else /* fix for if there is an outside options obj - this won't be relevant then */ {
     message = 'Please pass an options object or a message string into the middleware logger';
   }
 
+  if (isJSObject(loggerWare.options)) {
+    if (loggerWare.options.message) message = `${loggerWare.options.message}${message ? ' - ' + message : ''}`;
+    if (loggerWare.options.req) reqPaths = forceArrayOfStrings(loggerWare.options.req).concat(reqPaths);
+    if (loggerWare.options.res) resPaths = forceArrayOfStrings(loggerWare.options.res).concat(resPaths);
+  }
 
   return (req, res, next) => {
     if (typeof res.locals.expressMiddlewareLoggerCounter !== 'number') {
@@ -76,3 +81,5 @@ module.exports /* see https://stackoverflow.com/a/40295288 for why this is necce
     next();
   };
 };
+
+module.exports /* see https://stackoverflow.com/a/40295288 for why this is neccessary */ = loggerWare;
