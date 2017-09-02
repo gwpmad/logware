@@ -1,4 +1,7 @@
-import { inspect } from 'util';
+// import { inspect } from 'util';
+const { inspect } = require('util');
+
+const DEFAULT_MESSAGE = 'Please pass an options object or a message string into the middleware logger';
 
 const textColours = [
   '\x1b[32m', // green
@@ -57,10 +60,10 @@ const loggerWare = (individualOptions = 'Logger middleware called') => {
     if (individualOptions.res) resPaths = forceArrayOfStrings(individualOptions.res);
   } else if (typeof individualOptions === 'string') {
     message = individualOptions;
-  } else /* fix for if there is an outside options obj - this won't be relevant then */ {
+  } else if (!message && !loggerWare.options.message) {
     message = 'Please pass an options object or a message string into the middleware logger';
   }
-
+// need to find a way to assign DEFAULT_MESSAGE if no individual or loggeware.options. Needs tests
   if (isJSObject(loggerWare.options)) {
     if (loggerWare.options.message) message = `${loggerWare.options.message}${message ? ' - ' + message : ''}`;
     if (loggerWare.options.req) reqPaths = forceArrayOfStrings(loggerWare.options.req).concat(reqPaths);
