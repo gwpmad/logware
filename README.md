@@ -1,18 +1,18 @@
 # logware
-Simple, flexible and unobtrusive logging middleware for Express. Will look great in your `devDependencies`.
+Simple, flexible and unobtrusive console-logging middleware for Express. Will look great in your `devDependencies`.
 
 ## Why?
 Because you want to see the journey your `req` and `res` objects are taking once your route is hit, or you just want to log *something* to prove things are going where you expect.
 
 ## Why... this?
-Because you want the logs to be
+Because you want your logs to be
 * colourful, clearly demarcated and easy to read, with no `[Function: x]` silliness
 * easy to add, with no need to type something hideous in the vein of `function(req,res,next){console.log(12345,req.thing);next()},` and then find the app has crashed because of a missing bracket or comma
 * numbered, so you can easily tell which is which
 * ERROR FREE. This library is unlikely ever to throw an error. Nobody wants that from their `console.log`
 
 ## How?
-```
+```js
 import lw from 'logware'
 
 app.post('/route',
