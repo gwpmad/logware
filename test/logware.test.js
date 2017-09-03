@@ -114,5 +114,15 @@ describe('Logware', () => {
       assert(consoleCalls.includes(res.deepProp.nestedProp.evenMoreNestedProp));
       assert(consoleCalls.includes(res.number));
     });
+
+    it('logs the configured properties/message every time it is called', () => {
+      logware.options = { req: 'prop' };
+      logware({ res: 'number' })(req, res, noop); logware({ res: 'number' })(req, res, noop);
+      const consoleCalls = concatRelevantArgsFromCalls(logSpy);
+      const firstPropLogIdx = consoleCalls.indexOf(req.prop);
+      const lastPropLogIdx = consoleCalls.lastIndexOf(req.prop);
+      assert(firstPropLogIdx > -1 && lastPropLogIdx > -1);
+      assert(firstPropLogIdx !== lastPropLogIdx);
+    });
   });
 });
