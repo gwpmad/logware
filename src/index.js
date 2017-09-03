@@ -49,7 +49,7 @@ const logInfo = (entityName, path, value, textColour) =>
 const assembleAndLog = (entityName, textColour, entity) => (path) =>
   logInfo(entityName, path, resolve(path, entity), textColour);
 
-const loggerWare = (individualOptions = DEFAULT_MESSAGE) => {
+const logWare = (individualOptions = DEFAULT_MESSAGE) => {
   let message = '';
   let reqPaths = [];
   let resPaths = [];
@@ -60,29 +60,29 @@ const loggerWare = (individualOptions = DEFAULT_MESSAGE) => {
     if (individualOptions.res) resPaths = forceArrayOfStrings(individualOptions.res);
   } else if (typeof individualOptions === 'string') {
     message = individualOptions;
-  } else if (!isJSObject(loggerWare.options)) {
+  } else if (!isJSObject(logWare.options)) {
     message = NO_VALID_ARGUMENTS;
   }
 
-  if (isJSObject(loggerWare.options)) {
-    if (loggerWare.options.message) message = `${loggerWare.options.message}${message ? ' - ' + message : ''}`;
-    if (loggerWare.options.req) reqPaths = forceArrayOfStrings(loggerWare.options.req).concat(reqPaths);
-    if (loggerWare.options.res) resPaths = forceArrayOfStrings(loggerWare.options.res).concat(resPaths);
+  if (isJSObject(logWare.options)) {
+    if (logWare.options.message) message = `${logWare.options.message}${message ? ' - ' + message : ''}`;
+    if (logWare.options.req) reqPaths = forceArrayOfStrings(logWare.options.req).concat(reqPaths);
+    if (logWare.options.res) resPaths = forceArrayOfStrings(logWare.options.res).concat(resPaths);
   }
 
   return (req, res, next) => {
-    if (typeof res.locals.expressMiddlewareLoggerCounter !== 'number') {
-      res.locals.expressMiddlewareLoggerCounter = 1;
+    if (typeof res.locals._logWareCounter !== 'number') {
+      res.locals._logWareCounter = 1;
     }
 
-    const textColour = getTextColourFromCounter(res.locals.expressMiddlewareLoggerCounter);
+    const textColour = getTextColourFromCounter(res.locals._logWareCounter);
 
-    logCounterAndMessage(res.locals.expressMiddlewareLoggerCounter, message, textColour);
+    logCounterAndMessage(res.locals._logWareCounter, message, textColour);
     reqPaths.forEach(assembleAndLog('req', textColour, req));
     resPaths.forEach(assembleAndLog('res', textColour, res));
-    res.locals.expressMiddlewareLoggerCounter++;
+    res.locals._logWareCounter++;
     next();
   };
 };
 
-module.exports /* see https://stackoverflow.com/a/40295288 for why this is neccessary */ = loggerWare;
+module.exports /* see https://stackoverflow.com/a/40295288 for why this is neccessary */ = logWare;
