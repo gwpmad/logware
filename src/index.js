@@ -38,7 +38,7 @@ const getUnderline = (n) => Array(n).fill('─').join('');
 
 const logCounterAndMessage = (counter, message, textColour) => {
   const fullMessage = `${counter}.${message ? ' ' + message : ''}`;
-  const corner = `╔══\n║ `;
+  const corner = '╔══\n║ ';
   console.log(textColour, `\n\n${corner}${fullMessage}\n\n`);
 };
 
