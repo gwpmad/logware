@@ -1,7 +1,7 @@
-// import { inspect } from 'util';
-const { inspect } = require('util');
+import { inspect } from 'util';
 
-const DEFAULT_MESSAGE = 'Please pass an options object or a message string into the middleware logger';
+const NO_VALID_ARGUMENTS = 'Please pass an options object or a message string into the middleware logger';
+const DEFAULT_MESSAGE = 'Logger middleware called';
 
 const textColours = [
   '\x1b[32m', // green
@@ -49,7 +49,7 @@ const logInfo = (entityName, path, value, textColour) =>
 const assembleAndLog = (entityName, textColour, entity) => (path) =>
   logInfo(entityName, path, resolve(path, entity), textColour);
 
-const loggerWare = (individualOptions = 'Logger middleware called') => {
+const loggerWare = (individualOptions = DEFAULT_MESSAGE) => {
   let message = '';
   let reqPaths = [];
   let resPaths = [];
@@ -60,10 +60,10 @@ const loggerWare = (individualOptions = 'Logger middleware called') => {
     if (individualOptions.res) resPaths = forceArrayOfStrings(individualOptions.res);
   } else if (typeof individualOptions === 'string') {
     message = individualOptions;
-  } else if (!message && !loggerWare.options.message) {
-    message = 'Please pass an options object or a message string into the middleware logger';
+  } else if (!isJSObject(loggerWare.options)) {
+    message = NO_VALID_ARGUMENTS;
   }
-// need to find a way to assign DEFAULT_MESSAGE if no individual or loggeware.options. Needs tests
+
   if (isJSObject(loggerWare.options)) {
     if (loggerWare.options.message) message = `${loggerWare.options.message}${message ? ' - ' + message : ''}`;
     if (loggerWare.options.req) reqPaths = forceArrayOfStrings(loggerWare.options.req).concat(reqPaths);
