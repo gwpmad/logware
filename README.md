@@ -15,19 +15,19 @@ It's also free from dependencies.
 
 ## How?
 ```js
-import lw from 'logware'
+import lw from 'logware';
 
 app.post('/route',
   middleware1,
-  lw({ req: 'body.data.thing' }) // tell logware what to log
+  lw({ req: 'body.data.thing' }), // tell logware what to log
   middleware2,
-  lw({ req: 'user', res: ['app.data', 'locals.thing']}) // you can use an array to log multiple things
+  lw({ req: 'user', res: ['app.data', 'locals.thing']}), // you can use an array to log multiple things
   middleware3,
-  lw('Hello!!!') // or just pass a message
+  lw('Hello!!!'), // or just pass a message
   middleware4,
-  lw({ message: 'Hello', req: 'body', res: ['app.data', 'locals.thing']}) // or do it all!
+  lw({ message: 'Hello', req: 'body', res: ['app.data', 'locals.thing']}), // or do it all!
   middleware5
-)
+);
 ```
 
 ## Logs look like this
@@ -67,7 +67,7 @@ lw.options = {
   message: 'This will be logged every time',
   req: 'params.thingToLogEveryTime',
   res: 'headersSent'
-}
+};
 
 // these things will be logged each time lw() is called, along with anything passed in
 
