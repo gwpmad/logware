@@ -49,7 +49,7 @@ const logInfo = (entityName, path, value, textColour) =>
 const assembleAndLog = (entityName, textColour, entity) => (path) =>
   logInfo(entityName, path, resolve(path, entity), textColour);
 
-const logWare = (individualOptions = DEFAULT_MESSAGE) => {
+const logware = (individualOptions = DEFAULT_MESSAGE) => {
   let message = '';
   let reqPaths = [];
   let resPaths = [];
@@ -60,29 +60,29 @@ const logWare = (individualOptions = DEFAULT_MESSAGE) => {
     if (individualOptions.res) resPaths = forceArrayOfStrings(individualOptions.res);
   } else if (typeof individualOptions === 'string') {
     message = individualOptions;
-  } else if (!isJSObject(logWare.options)) {
+  } else if (!isJSObject(logware.options)) {
     message = NO_VALID_ARGUMENTS;
   }
 
-  if (isJSObject(logWare.options)) {
-    if (logWare.options.message) message = `${logWare.options.message}${message ? ' - ' + message : ''}`;
-    if (logWare.options.req) reqPaths = forceArrayOfStrings(logWare.options.req).concat(reqPaths);
-    if (logWare.options.res) resPaths = forceArrayOfStrings(logWare.options.res).concat(resPaths);
+  if (isJSObject(logware.options)) {
+    if (logware.options.message) message = `${logware.options.message}${message ? ' - ' + message : ''}`;
+    if (logware.options.req) reqPaths = forceArrayOfStrings(logware.options.req).concat(reqPaths);
+    if (logware.options.res) resPaths = forceArrayOfStrings(logware.options.res).concat(resPaths);
   }
 
   return (req, res, next) => {
-    if (typeof res.locals._logWareCounter !== 'number') {
-      res.locals._logWareCounter = 1;
+    if (typeof res.locals._logwareCounter !== 'number') {
+      res.locals._logwareCounter = 1;
     }
 
-    const textColour = getTextColourFromCounter(res.locals._logWareCounter);
+    const textColour = getTextColourFromCounter(res.locals._logwareCounter);
 
-    logCounterAndMessage(res.locals._logWareCounter, message, textColour);
+    logCounterAndMessage(res.locals._logwareCounter, message, textColour);
     reqPaths.forEach(assembleAndLog('req', textColour, req));
     resPaths.forEach(assembleAndLog('res', textColour, res));
-    res.locals._logWareCounter++;
+    res.locals._logwareCounter++;
     next();
   };
 };
 
-module.exports /* see https://stackoverflow.com/a/40295288 for why this is neccessary */ = logWare;
+module.exports /* see https://stackoverflow.com/a/40295288 for why this is neccessary */ = logware;
