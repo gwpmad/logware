@@ -4,8 +4,9 @@
   "description": "Easy, flexible and clear Express middleware logging",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha ./test",
     "build": "babel src --presets babel-preset-es2015 --out-dir dist",
+    "precommit": "npm run test",
     "prepublish": "npm run build"
   },
   "repository": {
