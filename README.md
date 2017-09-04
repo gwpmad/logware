@@ -69,7 +69,7 @@ lw.options = {
   res: 'headersSent'
 };
 
-// these things will be logged each time lw() is called, along with anything passed in
+// these things will be logged each time lw() is used, along with anything passed in
 
 ```
 
