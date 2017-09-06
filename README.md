@@ -5,10 +5,11 @@ Simple, flexible and unobtrusive console-logging middleware for Express. Will lo
 Because you want to see the journey your `req` and `res` objects are taking once your route is hit, or you just want to log *something* to prove things are going where you expect.
 
 ## Why... this?
-Because you want your logs to be
-* colourful, clearly demarcated and easy to read, with no `[Function: foo]` silliness
-* easy to add, with no need to type something hideous and then find the app has crashed because of a missing bracket or comma
+Because you want your logging to be
+* colourful
+* clearly demarcated and easy to read
 * numbered, so you can easily tell which is which
+* easy to add, with no need to type something hideous and then find the app has crashed because of a missing bracket or comma
 * ERROR FREE. This library is unlikely ever to throw an error. Nobody wants that from console logging.
 
 It's also free from dependencies.
